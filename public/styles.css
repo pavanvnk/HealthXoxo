@@ -1,0 +1,49 @@
+.container {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+.camera {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 24px;
+}
+
+.cam-icon {
+  margin-left: 50%;
+}
+
+.section-container {
+  display: flex;
+  text-align: center;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-top: 12%;
+}
+.section-container section {
+  width: 50%;
+  padding: 20px;
+}
+.section-container section:first-child {
+  border-right: 1px solid #ccc;
+}
+
+input[type="date"]{
+  background-color: #0080ff;
+  padding: 0.5%;
+  top: 40%;
+  left: 50%;
+  font-family: "Roboto Mono",monospace;
+  color: #ffffff;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+}
+::-webkit-calendar-picker-indicator{
+  background-color: #ffffff;
+  padding: 5px;
+  cursor: pointer;
+  border-radius: 3px;
+}

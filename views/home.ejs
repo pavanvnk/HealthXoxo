@@ -1,0 +1,28 @@
+<%- include('partials/header'); -%>
+
+
+
+  <h1 style="text-align: center; padding-top: 5%;">Welcome to Food Tracker</h1>
+
+  <div class="section-container">
+    <section>
+      <h2>Enter a new food item</h2>
+      <p>Click the button below to be taken to a form where you can enter information about a new food item:</p>
+      <a href="/food"><button class="btn btn-primary">Enter Food Item</button></a>
+    </section>
+
+    <section>
+      <h2>View daily intake charts</h2>
+      <p>Click the button below to be taken to a page where you can view charts of your daily food intake:</p>
+      <a href="/nutrient"><button  class="btn btn-primary">View Charts</button></a>
+    </section>
+  </div>
+
+  <div class="camera">
+    <i class="fas fa-camera cam-icon"></i>
+    <p>Click here to scan a barcode</p>
+  </div>
+
+<script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+
+<%- include('partials/footer'); -%>

@@ -1,0 +1,15 @@
+<%- include('partials/header'); -%>
+
+<div class="container">
+
+  <h1>Food Name</h1>
+  <form action="/food" method="post">
+    <div class="mb-3">
+      <label class="form-label">Name: </label>
+      <input type="text" class="form-control" placeholder="Food Item" name="foodName" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+<%- include('partials/footer'); -%>

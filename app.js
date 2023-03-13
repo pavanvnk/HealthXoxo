@@ -12,6 +12,7 @@ const app = express();
 app.set('view engine', 'ejs');
 
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.static("public"));
 
 mongoose.connect(process.env.MONGOOSE_KEY)
 
@@ -30,10 +31,19 @@ const foodSchema = new mongoose.Schema({
 const Food = mongoose.model('Food', foodSchema)
 
 app.get('/', (req, res) => {
-  res.render('index.ejs')
+  res.render('home.ejs')
 })
 
-app.post('/', async (req, res) => {
+app.get('/food', (req, res) => {
+  res.render('food.ejs')
+})
+
+app.get('/nutrient', (req, res) => {
+  res.render('nutrient.ejs')
+})
+
+
+app.post('/food', async (req, res) => {
   try {
     const apiKey = process.env.APIKEY;
     const foodItem = req.body.foodName;
@@ -57,7 +67,7 @@ app.post('/', async (req, res) => {
     })
 
     await food.save()
-    res.redirect('/chart')
+    res.render('nutrient.ejs')
 
     res.status(200);
   } catch (error) {
@@ -68,27 +78,35 @@ app.post('/', async (req, res) => {
 })
 
 app.get('/chart', async (req, res) => {
-  const istDate = moment.tz('2023-03-11', 'Asia/Kolkata');
+  const todayDate = req.query.date;
+  const istDate = moment.tz(todayDate, 'Asia/Kolkata');
   const startOfDayUtc = istDate.clone().startOf('day').utc().toDate();
   const endOfDayUtc = istDate.clone().endOf('day').utc().toDate();
-  const today = new Date();  
-  
+  const nutrientItem = req.query.nutrientName;
+    
   const data = await Food.aggregate([
     { $match: { date: { $gte: startOfDayUtc, $lte: endOfDayUtc } } },
     { $unwind: "$nutrients" },
-    { $match: { "nutrients.name": "Protein" } },
+    { $match: { "nutrients.name": nutrientItem } },
     {
       $group: {
         _id: '$name',
         calories: { $sum: '$nutrients.value' },
+        unit: {$first: '$nutrients.unit'}
       },
     },
   ]);
   
   const labels = data.map(item => item._id);
+  const length_items = labels.length;
   const values = data.map(item => item.calories);
+  const units = data.map(item => item.unit)
+  
+  if(Object.keys(labels).length === 0) {
+    res.render('error.ejs')
+  }
 
-  res.render('chart', {lbl : labels, dt : values})
+  res.render('chart', {lbl : labels, dt : values, ut: units, name: nutrientItem, lt: length_items, td: todayDate})
 });
 
 

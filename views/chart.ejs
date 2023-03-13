@@ -1,47 +1,35 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Food Tracker</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <canvas id="myChart"></canvas>
-    <script>
+<%- include('partials/header'); -%>
 
-      // var randomColorGenerator = function () { 
-      //     return '#' + (Math.random().toString(16) + '0000000').slice(2, 8); 
-      // };
+  <body>
+    <canvas id="myChart"></canvas>
+  </body>
+
+    
+  <script>
+
+      function dynamicColors(length) {
+        var colors = [];
+        for (var i = 0; i < length; i++) {
+          var r = Math.floor(Math.random() * 255);
+          var g = Math.floor(Math.random() * 255);
+          var b = Math.floor(Math.random() * 255);
+          colors.push("rgba(" + r + "," + g + "," + b + ", 1)");
+        }
+        return colors;
+      }
 
       var ctx = document.getElementById('myChart').getContext('2d');
-      const foodNames = <%- JSON.stringify(lbl) %>;
-      const values = <%- JSON.stringify(dt) %>;
-
+      const nu = '<%= name %>';
+      
       var myChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: foodNames,
+          labels: <%- JSON.stringify(lbl) %>,
           datasets: [{
-            label: 'Protein',
-            data: values,
-            backgroundColor: [
-            'rgba(255, 99, 132, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(255, 206, 86, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(128, 128, 128, 0.2)',
-            ],
-              borderColor: [
-              'rgba(255, 99, 132, 1)',
-              'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
-              'rgba(153, 102, 255, 1)',
-              'rgba(255, 159, 64, 1)',
-              'rgba(128, 128, 128, 1)',
-              ],
-              borderWidth: 1
+            label: nu,
+            data: <%- JSON.stringify(dt) %>,
+            backgroundColor: dynamicColors(<%= lt %>),            
+            borderWidth: 1
           }]
       },
       options: {
@@ -53,7 +41,7 @@
           },
           legend: {
               display: true,
-              position: 'right',
+              position: 'bottom',
               labels: {
                   fontColor: '#333',
                   fontSize: 14
@@ -62,9 +50,20 @@
           animation: {
               animateScale: true,
               animateRotate: true
-          }
+          },
+          tooltips: {
+            callbacks: {
+              label: function(tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var label = data.labels[tooltipItem.index];
+                var value = dataset.data[tooltipItem.index];
+                var unit = '<%= JSON.stringify(ut[0]) %>';
+                return '${label}: ${value} ${unit}';
+        }
+      }
+    }
       }
       });
     </script>
-</body>
-</html>
+
+<%- include('partials/footer'); -%>

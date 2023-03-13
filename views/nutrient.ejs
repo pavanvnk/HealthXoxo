@@ -1,0 +1,35 @@
+<%- include('partials/header'); -%>
+
+<div class="container">
+
+  <h1>Nutrient Chart</h1>
+  <form class="needs-validation" action="/chart" method="get">
+    <div class="mb-3">
+      <label class="form-label">Nutrient Chart: </label>
+      <select class="form-select" name="nutrientName" required>
+        <option value="">Select Nutrient</option>
+        <option value="Protein">Proteins</option>
+        <option value="Carbohydrate, by difference">Carbohydrates</option>
+        <option value="Total lipid (fat)">Fats</option>
+        <option value="Energy">Energy</option>
+        <option value="Sugars, total including NLEA">Sugars</option>
+        <option value="Fiber, total dietary">Fibers</option>
+        <option value="Calcium, Ca">Calcium</option>
+        <option value="Iron, Fe">Iron</option>
+        <option value="Potassium, K">Potassium</option>
+        <option value="Manganese, Mn">Manganese</option>
+        <option value="Vitamin D (D2 + D3), International Units">Vitamin D</option>
+        <option value="Vitamin C, total ascorbic acid">Vitamin C</option>
+        <option value="Vitamin K (phylloquinone)">Vitamin K</option>
+        <option value="Cholesterol">Cholesterol</option>
+      </select>
+      <br>
+      <label  class="form-label">Date: </label>
+      <input type="date" id="date" name="date" required>
+      <br>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+<%- include('partials/footer'); -%>
